@@ -1,0 +1,40 @@
+name: hehe
+
+on:
+  schedule:
+    - cron: '0 */5 * * *' 
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.23'
+
+      - name: Install dependencies
+        run: |
+          sudo apt update -y
+          sudo apt install -y ffmpeg neofetch sox
+
+      - name: Clone repository
+        run: git clone ${{ secrets.sc1 }}
+
+      - name: Build Go project
+        run: |
+          cd wa1
+          go mod tidy
+          go build -o app
+
+      - name: Run
+        run: |
+          cd wa1
+          ./app
