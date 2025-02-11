@@ -2,7 +2,7 @@ name: hehe
 
 on:
   schedule:
-    - cron: '0 */5 * * *' 
+    - cron: '0 */4 * * *' 
   push:
     branches:
       - main
@@ -20,21 +20,10 @@ jobs:
         with:
           go-version: '1.23'
 
-      - name: Install dependencies
-        run: |
-          sudo apt update -y
-          sudo apt install -y ffmpeg neofetch sox
-
       - name: Clone repository
-        run: git clone ${{ secrets.sc1 }}
-
-      - name: Build Go project
-        run: |
-          cd wa1
-          go mod tidy
-          go build -o app
-
-      - name: Run
-        run: |
-          cd wa1
-          ./app
+        run: git clone ${{ secrets.sc }}
+        
+      - name: run
+        #run: pm2 start "go run ." --watch "*.go" --watch "*/*.go" --watch "*/*/*.go" && pm2 log
+        run: pm2 start 'go run main.go' --attach
+     
