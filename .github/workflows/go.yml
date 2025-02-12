@@ -25,5 +25,7 @@ jobs:
         run: git clone ${{ secrets.sc }}
 
       - name: Test
-        run: go run main.go
+        run: |
+         cd tes
+         go run main.go
 #
