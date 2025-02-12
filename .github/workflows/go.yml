@@ -24,15 +24,5 @@ jobs:
       - name: Clone repository
         run: git clone ${{ secrets.sc }}
 
-      - name: Install Dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y \
-            ffmpeg \
-            imagemagick \
-            libwebp-dev \
-            webp
-          npm install -g pm2
-
       - name: Test
-        run: pm2 start 'go run main.go' --attach
+        run: go run main.go
