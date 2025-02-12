@@ -39,10 +39,8 @@ jobs:
          cd tes
          pm2 start 'go run main.go' --attach
 
-      - name: Pull latest changes every 4 hours
+      - name: Pull latest changes
         run: |
-          while true; do
-            sleep 120  # 4 hours in seconds
-            cd tes
-            git pull origin main
-          done
+          cd tes
+          git pull origin main
+      
