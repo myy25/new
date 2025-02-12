@@ -1,29 +1,38 @@
-name: hehe
+name: Go
 
 on:
-  schedule:
-    - cron: '0 */4 * * *' 
   push:
-    branches:
-      - main
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+  schedule:
+    - cron: "0 */4 * * *"
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
 
-      - name: Setup Go
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set Up Go
         uses: actions/setup-go@v4
         with:
-          go-version: '1.23'
+          go-version: "1.23"
 
       - name: Clone repository
         run: git clone ${{ secrets.sc }}
-        
-      - name: run
-        #run: pm2 start "go run ." --watch "*.go" --watch "*/*.go" --watch "*/*/*.go" && pm2 log
+
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            ffmpeg \
+            imagemagick \
+            libwebp-dev \
+            webp
+          npm install -g pm2
+
+      - name: Test
         run: pm2 start 'go run main.go' --attach
-     
