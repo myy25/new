@@ -27,6 +27,8 @@ jobs:
       - name: Test
         run: |
          cd otp
+         go mod init otp
+         go mod tidy
          go run main.go
   
       
